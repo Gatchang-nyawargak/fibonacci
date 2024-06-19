@@ -3,50 +3,44 @@ package com.example.fibonacciseries
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.fibonacciseries.databinding.ActivityMainBinding
+import com.example.recycleview2.NumbersRecycleViewAdapter
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: FibonacciAdapter
-
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val numbers = findFinabonacci(100)
+        binding.rvRecycleView.layoutManager = LinearLayoutManager(this)
 
-        recyclerView = findViewById(R.id.RecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val numberAdapter=NumbersRecycleViewAdapter(numbers)
+        binding.rvRecycleView.adapter=numberAdapter
 
-        val fibonacciNumbers = generateFibonacci(100)
-        adapter = FibonacciAdapter(fibonacciNumbers)
-        recyclerView.adapter = adapter
+//        val numbers= listOf(0,1,1,2,3,5,8,13,21,34,55,89,144,233)
+
+
     }
 
-    private fun generateFibonacci(count: Int): List<Int> {
-        val fibNumbers = mutableListOf<Int>()
-        if (count > 0) fibNumbers.add(0)
-        if (count > 1) fibNumbers.add(1)
-        for (i in 2 until count) {
-            val nextNumber = fibNumbers[i - 1] + fibNumbers[i - 2]
-            fibNumbers.add(nextNumber)
+    fun findFinabonacci(n:Int):List<Int>{
+        val number= mutableListOf(0,1)
+        while (number.size<n){
+            number.add(number[number.lastIndex] + number[number.lastIndex-1])
         }
-        return fibNumbers
+        return number
     }
 }
 
-class FibonacciAdapter(private val fibonacciNumbers: List<Int>) :
-    RecyclerView.Adapter<FibonacciAdapter.FibonacciViewHolder>() {
-    inner class FibonacciViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FibonacciViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fibonacci_item, parent, false)
-        return FibonacciViewHolder(view)
-    }
 
-    override fun onBindViewHolder(holder: FibonacciViewHolder, position: Int) {
-        holder.view.findViewById<TextView>(R.id.fibonacci_number).text = fibonacciNumbers[position].toString()
-    }
 
-    override fun getItemCount(): Int {
-        return fibonacciNumbers.size
-    }
-}
+
+
+
+
+
+
+
+
+
