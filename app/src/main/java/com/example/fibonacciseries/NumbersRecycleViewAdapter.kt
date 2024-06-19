@@ -32,5 +32,5 @@ class NumbersRecycleViewAdapter (var number:List<Int>):RecyclerView.Adapter<Numb
 }
 
 class NumberView(itemView: View):RecyclerView.ViewHolder(itemView){
-    var tvNumber=itemView.findViewById<TextView>(R.id.rvNumber)
+    var tvNumber=itemView.findViewById<TextView>(R.id.tvNumber)
 }
